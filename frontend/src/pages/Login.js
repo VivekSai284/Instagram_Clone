@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {Link, useNavigate} from 'react-router-dom'
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
-    phone: "",
+    username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!/^[6-9]\d{9}$/.test(loginData.phone)) {
-      return alert("Enter a valid 10-digit phone number");
-    }
 
     try {
       const response = await axios.post(
         "http://localhost:5000/auth/login",
         loginData,
       );
+      localStorage.setItem('token', response.data.token)
       alert(response.data.message);
+      navigate('/')
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data);
     }
   };
   return (
@@ -29,15 +29,14 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="tel"
-          maxLength={10}
-          placeholder="Phone no."
+          type="text"
+          placeholder="Username"
           required
-          value={loginData.phone}
+          value={loginData.username}
           onChange={(e) =>
             setLoginData({
               ...loginData,
-              phone: e.target.value,
+              username: e.target.value,
             })
           }
         />
@@ -54,6 +53,7 @@ const Login = () => {
           }
         />
         <button type="submit">Login</button>
+        <p>New User?<Link to='/register'>Register</Link></p>
       </form>
     </div>
   );

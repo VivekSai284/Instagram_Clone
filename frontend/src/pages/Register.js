@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -9,6 +10,8 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +29,7 @@ const Register = () => {
         registerData,
       );
       alert(response.data.message);
+      navigate('/login')
     } catch (error) {
       alert(error.message);
     }
@@ -98,6 +102,7 @@ const Register = () => {
         />
 
         <button type="submit">Register</button>
+        <p>Already Registered?<Link to='/login'>Login</Link></p>
       </form>
     </div>
   );

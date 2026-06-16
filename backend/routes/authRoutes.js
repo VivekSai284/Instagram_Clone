@@ -10,7 +10,7 @@ router.post('/register', async(req, res) => {
     try{
         const {fullname, username, phone, password} = req.body
 
-        const existingUser = await User.findOne({phone})
+        const existingUser = await User.findOne({username})
 
         if(existingUser){
             return res.status(400).json({
@@ -42,9 +42,9 @@ router.post('/register', async(req, res) => {
 
 
 router.post('/login', async(req, res) => {
-    const {phone, password} = req.body
+    const {username, password} = req.body
 
-    const user = await User.findOne({phone})
+    const user = await User.findOne({username})
 
     if(!user){
         return res.status(400).json({
