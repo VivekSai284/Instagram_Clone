@@ -42,4 +42,42 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/:id/like", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(400)({
+        message: "Post not Found",
+      });
+    }
+
+    const alreadyLiked = post.likes.some(
+      (id) => id && id.toString() === userId,
+    );
+    if (alreadyLiked) {
+      post.likes = post.likes.filter((id) => id && id.toString() !== userId);
+      await post.save();
+
+      return res.status(200).json({
+        message: "Post Unliked",
+      });
+    }
+
+    post.likes.push(userId);
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Post Liked",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+});
+
 module.exports = router;

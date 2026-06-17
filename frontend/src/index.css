@@ -1,13 +1,168 @@
-body {
+/* --- Global Mobile-First Reset --- */
+* {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent; /* Removes the ugly blue flash on mobile taps */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background-color: #ffffff; /* Instagram mobile uses white background */
+  color: #262626;
+}
+
+.home {
+  width: 100%;
+  max-width: 500px; /* Constrains look nicely if opened on a small tablet */
+  margin: 0 auto;
+  padding-top: 50px; /* Space for mobile navbar */
+}
+
+/* --- MOBILE NAVBAR --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f2f2f2;
+  z-index: 1000;
+}
+
+/* Flex wrapper around your updated container */
+.nav-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 16px;
+}
+
+.logo {
+  font-family: 'Style Script', 'Grand Hotel', cursive, sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+.nav-icon-link {
+  color: #262626;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* --- MOBILE FEED & POSTS --- */
+.home-feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  background: #ffffff;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f2f2f2; /* Clean separator line between posts on mobile */
+}
+
+/* Post Header */
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.post-username {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #262626;
+}
+
+/* Full Width Mobile Post Image */
+.post-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 500px;
+  background-color: #fafafa;
+}
+
+/* --- ACTION RIBBON --- */
+.post-actions-ribbon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px 4px 12px;
+}
+
+.left-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.right-actions {
+  display: flex;
+  align-items: center;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px; /* Slightly larger tap target for thumbs */
+  color: #262626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Active Liked Heart Styles & Mobile Pop Animation */
+.like-btn.liked {
+  color: #ff3040;
+  animation: mobilePop 0.25s ease-out;
+}
+
+/* Post Likes Count alignment inside left-actions */
+.post-likes {
+  margin-left: 8px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: #262626;
+  margin-right: 2px;
+}
+
+/* --- POST CONTENT & CAPTION --- */
+.post-content {
+  padding: 4px 12px 12px 12px;
+}
+
+.post-caption {
+  font-size: 13.5px;
+  line-height: 17px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.post-caption-username {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.post-time {
+  font-size: 10.5px;
+  color: #737373;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  margin-top: 2px;
+}
+
+/* --- HAPTIC CLICK POP ANIMATION --- */
+@keyframes mobilePop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }

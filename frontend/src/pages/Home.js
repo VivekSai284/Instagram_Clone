@@ -1,46 +1,119 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  BsPlusSquare,
+  BsHeart,
+  BsHeartFill,
+  BsChat,
+  BsSend,
+  BsBookmark,
+} from "react-icons/bs";
 
 const Home = () => {
-  const[posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
 
-  const fetchPosts = async() => {
-    try{
-      const response = await axios.get('http://localhost:5000/posts')
-      setPosts(response.data)
-    }catch(error){
-      alert(error)
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/posts");
+      setPosts(response.data);
+    } catch (error) {
+      alert(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
+
+  const handleLike = async (postId) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/posts/${postId}/like`,
+        {},
+        {
+          headers: {
+            Authorization: ` ${token}`,
+          },
+        },
+      );
+
+      fetchPosts();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div className="home">
       <nav className="navbar">
-        <div className="add">
-          <Link to="/add">ADD</Link>
-        </div>
-
-        <div className="logo">INSTA CLONE</div>
-
-        <div className="notification">
-          <Link to="/notifications">NOTI</Link>
+        <div className="nav-items">
+          <Link to="/add" className="nav-icon-link" title="Add Post">
+            <BsPlusSquare size={22} />
+          </Link>
+        <div className="logo">Instagram</div>
+          <Link
+            to="/notifications"
+            className="nav-icon-link"
+            title="Notifications"
+          >
+            <BsHeart size={22} />
+          </Link>
         </div>
       </nav>
 
-      <div>
+      <div className="home-feed">
         {posts.map((post) => (
-          <div key={post._id}>
-            <p>{post.user?.username}</p>
-            <img src={`http://localhost:5000/uploads/${post.image}`}/>
+          <div key={post._id} className="post">
+            <div className="post-header">
+              <p className="post-username">{post.user?.username}</p>
+            </div>
 
-            <p><span>{post.user?.username}</span>{post.caption}</p>
+            <img
+              className="post-img"
+              src={`http://localhost:5000/uploads/${post.image}`}
+              alt="post"
+            />
 
-            <p>{new Date(post.createdAt).toLocaleString()}</p>
+            <div className="post-actions-ribbon">
+              <div className="left-actions">
+                <button
+                  className={`action-btn like-btn ${post.likes.some((id) => id && id.toString() === userId) ? "liked" : ""}`}
+                  onClick={() => handleLike(post._id)}
+                >
+                  {post.likes.some((id) => id && id.toString() === userId) ? <BsHeartFill size={24} /> : <BsHeart size={24} />}
+                <span className="post-likes">              
+                {post.likes?.length || 0}{" "}
+                {post.likes?.length === 1 ? "like" : "likes"}
+              </span></button>
+                <button className="action-btn">
+                  <BsChat size={24} />
+                </button>
+                <button className="action-btn">
+                  <BsSend size={24} />
+                </button>
+              </div>
+              <div className="right-actions">
+                <button className="action-btn">
+                  <BsBookmark size={24} />
+                </button>
+              </div>
+            </div>
+
+            <div className="post-content">
+              <p className="post-caption">
+                <span className="post-caption-username">
+                  {post.user?.username}
+                </span>
+                {post.caption}
+              </p>
+
+              <p className="post-time">
+                {new Date(post.createdAt).toLocaleString()}
+              </p>
+            </div>
           </div>
         ))}
       </div>
