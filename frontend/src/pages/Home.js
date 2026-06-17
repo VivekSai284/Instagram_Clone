@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  BsPlusSquare,
   BsHeart,
   BsHeartFill,
   BsChat,
   BsSend,
   BsBookmark,
 } from "react-icons/bs";
+import {FiPlus} from 'react-icons/fi';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -51,7 +51,7 @@ const Home = () => {
       <nav className="navbar">
         <div className="nav-items">
           <Link to="/add" className="nav-icon-link" title="Add Post">
-            <BsPlusSquare size={22} />
+            <FiPlus size={22} />
           </Link>
         <div className="logo">Instagram</div>
           <Link
@@ -86,7 +86,6 @@ const Home = () => {
                   {post.likes.some((id) => id && id.toString() === userId) ? <BsHeartFill size={24} /> : <BsHeart size={24} />}
                 <span className="post-likes">              
                 {post.likes?.length || 0}{" "}
-                {post.likes?.length === 1 ? "like" : "likes"}
               </span></button>
                 <button className="action-btn">
                   <BsChat size={24} />

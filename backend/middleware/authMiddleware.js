@@ -8,6 +8,7 @@ const authMiddleware = (req, res, next) => {
         return res.status(401).json({
             message: "No token, Acess Denied"
         })
+        
     }
 
     try{

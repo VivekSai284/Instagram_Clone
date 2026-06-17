@@ -50,29 +50,54 @@ const AddPage = () => {
 
 
   return (
-    <div>
-      <h1>Create Post</h1>
+    <div className="create-post-container">
+  {/* --- TOP INSTA-STYLE HEADER BAR --- */}
+  <div className="create-post-header">
+    <h2>New Post</h2>
+  </div>
 
-      <form onSubmit={handleSubmit}>
-        <input 
-          type='file'
-          accept='image/*'
-          onChange={handleImageChange}
-        />
-
-        {preview && (<img src={preview} alt="post"/>)}
-
-        <textarea 
-          placeholder='Write a Caption...'
-          value={caption}
-          onChange={(e) => {
-            setCaption(e.target.value)
-          }}
-        />
-
-        <button type='submit'>Post</button>
-      </form>
+  <form id="create-post-form" className="create-post-form" onSubmit={handleSubmit}>
+    
+    {/* --- IMAGE UPLOADER ELEMENT --- */}
+    <div className="upload-section">
+      {preview ? (
+        <div className="image-preview-box">
+          <img src={preview} alt="post preview" />
+          <label htmlFor="file-upload" className="change-photo-lbl">Change Photo</label>
+        </div>
+      ) : (
+        <label htmlFor="file-upload" className="custom-file-upload">
+          <div className="upload-placeholder">
+            <span className="upload-icon">📸</span>
+            <p>Select from computer or device</p>
+          </div>
+        </label>
+      )}
+      <input 
+        id="file-upload"
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        style={{ display: 'none' }} // Hidden native input for custom styled button UI
+      />
     </div>
+
+    {/* --- CAPTION INPUT BOX --- */}
+    <div className="caption-section">
+      <textarea 
+        placeholder="Write a caption..."
+        value={caption}
+        onChange={(e) => setCaption(e.target.value)}
+        maxLength={2200}
+      />
+    </div>
+
+        <button type="submit" form="create-post-form" className="share-btn">
+      Share
+    </button>
+
+  </form>
+</div>
   )
 }
 

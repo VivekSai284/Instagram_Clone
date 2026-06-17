@@ -26,37 +26,34 @@ const Login = () => {
     }
   };
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          required
-          value={loginData.username}
-          onChange={(e) =>
-            setLoginData({
-              ...loginData,
-              username: e.target.value,
-            })
-          }
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          value={loginData.password}
-          onChange={(e) =>
-            setLoginData({
-              ...loginData,
-              password: e.target.value,
-            })
-          }
-        />
-        <button type="submit">Login</button>
-        <p>New User?<Link to='/register'>Register</Link></p>
-      </form>
-    </div>
+    <div className="auth-page-container">
+  <div className="auth-card">
+    <h1 className="auth-logo">Instagram</h1>
+    
+    <form className="auth-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Username"
+        required
+        value={loginData.username}
+        onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        required
+        value={loginData.password}
+        onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+      />
+      
+      <button className="auth-submit-btn" type="submit">Login</button>
+    </form>
+  </div>
+
+  <div className="auth-toggle-card">
+    <p>New User? <Link to='/register'>Register</Link></p>
+  </div>
+</div>
   );
 };
 

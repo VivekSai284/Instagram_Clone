@@ -16,7 +16,8 @@ body {
   width: 100%;
   max-width: 500px; /* Constrains look nicely if opened on a small tablet */
   margin: 0 auto;
-  padding-top: 50px; /* Space for mobile navbar */
+  padding-top: 50px;
+  padding-bottom: 50px; /* Space for mobile navbar */
 }
 
 /* --- MOBILE NAVBAR --- */
@@ -165,4 +166,514 @@ body {
   40% { transform: scale(1.25); }
   70% { transform: scale(0.9); }
   100% { transform: scale(1); }
+}
+
+
+/* --- FIXED BOTTOM FOOTER --- */
+.mobile-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: #ffffff;
+  border-top: 1px solid #dbdbdb;
+  z-index: 1000;
+}
+
+.footer-navbar {
+  display: flex;
+  justify-content: space-around; /* Distributes icons evenly across the screen width */
+  align-items: center;
+  height: 100%;
+  max-width: 500px; /* Aligns with your feed constraints */
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+.footer-icon-link {
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 44px; /* Creates an easy, thumb-friendly tap target width */
+  height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Quick haptic click shrink effect for mobile */
+.footer-icon-link:active {
+  transform: scale(0.9);
+}
+
+/* --- CONTAINER BASE --- */
+.profile-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: #262626;
+  box-sizing: border-box;
+  padding-top: 44px;
+}
+
+/* --- FIXED TOP ACTION NAVBAR --- */
+.profile-top-navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 44px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.dropdown-wrapper { position: relative; display: inline-block; }
+.navbar-username-trigger { display: flex; align-items: center; gap: 4px; cursor: pointer; user-select: none; }
+.navbar-username-trigger h2 { font-size: 16px; font-weight: 600; color: #262626; }
+.navbar-username-trigger .chevron { transition: transform 0.2s ease; }
+.navbar-username-trigger .chevron.open { transform: rotate(180deg); }
+
+.profile-dropdown-menu {
+  position: absolute;
+  top: 35px; left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  min-width: 160px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1200;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #262626;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f2f2f2;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item:active { background-color: #fafafa; }
+.dropdown-item.logout-action { color: #ed4956; font-weight: 600; }
+
+/* --- THE SIDE-BY-SIDE HERO ROW --- */
+.profile-hero-row {
+  display: flex;
+  align-items: center;
+  padding: 24px 20px;
+  gap: 24px; /* Space between avatar and stats side */
+}
+
+.avatar-side {
+  flex-shrink: 0;
+}
+
+.avatar-section {
+  width: 77px;
+  height: 77px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e1306c, #833ab4);
+  padding: 2.5px;
+  box-sizing: border-box;
+}
+
+.avatar-section::before {
+  content: '';
+  display: block;
+  width: 100%; height: 100%;
+  background-color: #fafafa;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dbdbdb' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 70%;
+}
+
+/* RIGHT HAND COLUMN PACK (FULLNAME & STATS) */
+.info-side {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px; 
+  min-width: 0;/* Tightly stack stats directly under name */
+}
+
+.profile-display-fullname {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+  padding-left: 4px;
+}
+
+.profile-stats-inline {
+  display: flex;
+  justify-content: space-between; /* Spreads posts, followers, and following evenly */
+  width: 100%;
+  max-width: 280px; /* Limits maximum spread on wider screens */
+  padding-right: 10px; /* Inline side spacing for post counters */
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column; /* Stacks the number over the label (e.g., 4 over posts) */
+  align-items: center;    /* Horizontally centers the numbers above the labels */
+  font-size: 13px;
+  color: #262626;
+  text-align: center;
+}
+
+.stat-count {
+  font-weight: 600;
+  font-size: 15px; /* Slightly punchier font size for the numbers */
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  color: #737373;
+  font-weight: 400;
+}
+
+/* --- TABS LINE --- */
+.profile-tabs-separator {
+  display: flex;
+  justify-content: center;
+  height: 44px;
+  border-top: 1px solid #efefef;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #262626;
+  border-top: 1px solid #262626;
+  margin-top: -1px;
+}
+
+/* --- THE IMAGES GRID [POSTS] --- */
+.profile-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.post-grid-item {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  background-color: #fafafa;
+}
+
+.post-grid-item img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* --- MOBILE TIGHTENING --- */
+@media (max-width: 480px) {
+  .profile-hero-row {
+    padding: 18px 16px;
+    gap: 20px;
+  }
+  .avatar-section {
+    width: 72px;
+    height: 72px;
+  }
+  .profile-stats-inline {
+    gap: 14px;
+  }
+  .stat-item {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
+/* --- AUTH PAGE CONTAINER --- */
+.auth-page-container {
+  width: 100%;
+  max-width: 350px;
+  margin: 60px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+/* --- MAIN FORM CARD --- */
+.auth-card {
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 1px;
+  padding: 40px 40px 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Instagram Logo Text font fallback setup */
+.auth-logo {
+  font-family: 'Style Script', 'Grand Hotel', 'Brush Script MT', cursive, sans-serif;
+  font-size: 38px;
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 24px;
+  user-select: none;
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #737373;
+  text-align: center;
+  line-height: 18px;
+  margin-bottom: 16px;
+}
+
+/* --- FORM & INPUT FIELDS --- */
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-form input {
+  width: 100%;
+  height: 38px;
+  background-color: #fafafa;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  padding: 9px 8px;
+  font-size: 12px;
+  color: #262626;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.1s ease;
+}
+
+/* Soft focusing border color alteration like IG application */
+.auth-form input:focus {
+  border-color: #a8a8a8;
+}
+
+/* --- PRIMARY BUTTON ACTION --- */
+.auth-submit-btn {
+  background-color: #0095f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  height: 32px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.auth-submit-btn:hover {
+  background-color: #1877f2;
+}
+
+.auth-submit-btn:active {
+  opacity: 0.85;
+}
+
+/* --- TOGGLE VIEW SWITCH CARD --- */
+.auth-toggle-card {
+  background-color: #ffffff;
+  border: 1px solid #dbdbdb;
+  border-radius: 1px;
+  padding: 20px;
+  text-align: center;
+}
+
+.auth-toggle-card p {
+  font-size: 14px;
+  color: #262626;
+}
+
+.auth-toggle-card a {
+  color: #0095f6;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.auth-toggle-card a:hover {
+  text-decoration: underline;
+}
+
+/* --- MOBILE DEVICE SCALING --- */
+@media (max-width: 450px) {
+  .auth-page-container {
+    margin: 20px auto;
+  }
+  
+  /* On pure mobile, the white box background outlines disappear into full screen width */
+  .auth-card, .auth-toggle-card {
+    background-color: transparent;
+    border: none;
+    padding: 20px 10px;
+  }
+  
+  .auth-logo {
+    margin-top: 40px;
+  }
+}
+
+
+/* --- CONTAINER LAYOUT --- */
+.create-post-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  min-height: calc(100vh - 50px);
+  padding-bottom: 60px; /* Space clear of the bottom footer */
+  box-sizing: border-box;
+}
+
+/* --- ACTIONS ACTION HEADER --- */
+.create-post-header {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid #efefef;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 10;
+}
+
+.create-post-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.share-btn {
+  background: none;
+  border: none;
+  color: #0095f6;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.share-btn:active {
+  opacity: 0.7;
+}
+
+/* --- CUSTOM PHOTO PICKER DROPZONE --- */
+.upload-section {
+  width: 100%;
+  background-color: #fafafa;
+  border-bottom: 1px solid #efefef;
+}
+
+.custom-file-upload {
+  display: block;
+  width: 100%;
+  padding-top: 100%; /* Creates a perfect square matching 1:1 format aspect ratios */
+  position: relative;
+  cursor: pointer;
+}
+
+.upload-placeholder {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.upload-icon {
+  font-size: 40px;
+}
+
+.upload-placeholder p {
+  font-size: 14px;
+  color: #737373;
+}
+
+/* --- PREVIEW RENDER FRAME --- */
+.image-preview-box {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Keeps it a perfect square matching feed sizes */
+  background: #000;
+}
+
+.image-preview-box img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.change-photo-lbl {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* --- CAPTION INPUT BOX FIELD --- */
+.caption-section {
+  padding: 16px;
+}
+
+.caption-section textarea {
+  width: 100%;
+  height: 120px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  color: #262626;
+}
+
+.caption-section textarea::placeholder {
+  color: #c7c7c7;
 }

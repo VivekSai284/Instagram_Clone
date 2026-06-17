@@ -36,75 +36,57 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          required
-          placeholder="Full Name"
-          value={registerData.fullname}
-          onChange={(e) => {
-            setRegisterData({
-              ...registerData,
-              fullname: e.target.value,
-            });
-          }}
-        />
-        <input
-          type="text"
-          required
-          placeholder="Username"
-          value={registerData.username}
-          onChange={(e) => {
-            setRegisterData({
-              ...registerData,
-              username: e.target.value,
-            });
-          }}
-        />
-        <input
-          type="tel"
-          maxLength={10}
-          required
-          placeholder="Phone No."
-          value={registerData.phone}
-          onChange={(e) => {
-            setRegisterData({
-              ...registerData,
-              phone: e.target.value,
-            });
-          }}
-        />
-        <input
-          type="password"
-          required
-          placeholder="Password"
-          value={registerData.password}
-          onChange={(e) => {
-            setRegisterData({
-              ...registerData,
-              password: e.target.value,
-            });
-          }}
-        />
-        <input
-          type="password"
-          required
-          placeholder="Confirm Password"
-          value={registerData.confirmPassword}
-          onChange={(e) => {
-            setRegisterData({
-              ...registerData,
-              confirmPassword: e.target.value,
-            });
-          }}
-        />
+    <div className="auth-page-container">
+  <div className="auth-card">
+    <h1 className="auth-logo">Instagram</h1>
+    <p className="auth-subtitle">Sign up to see posts from your friends.</p>
+    
+    <form className="auth-form" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        required
+        placeholder="Full Name"
+        value={registerData.fullname}
+        onChange={(e) => setRegisterData({ ...registerData, fullname: e.target.value })}
+      />
+      <input
+        type="text"
+        required
+        placeholder="Username"
+        value={registerData.username}
+        onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+      />
+      <input
+        type="tel"
+        maxLength={10}
+        required
+        placeholder="Phone No."
+        value={registerData.phone}
+        onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })}
+      />
+      <input
+        type="password"
+        required
+        placeholder="Password"
+        value={registerData.password}
+        onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+      />
+      <input
+        type="password"
+        required
+        placeholder="Confirm Password"
+        value={registerData.confirmPassword}
+        onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
+      />
 
-        <button type="submit">Register</button>
-        <p>Already Registered?<Link to='/login'>Login</Link></p>
-      </form>
-    </div>
+      <button className="auth-submit-btn" type="submit">Register</button>
+    </form>
+  </div>
+
+  <div className="auth-toggle-card">
+    <p>Already Registered? <Link to='/login'>Login</Link></p>
+  </div>
+</div>
   );
 };
 

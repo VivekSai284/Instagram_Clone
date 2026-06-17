@@ -80,4 +80,22 @@ router.put("/:id/like", authMiddleware, async (req, res) => {
   }
 });
 
+
+router.get('/my-posts', authMiddleware, async(req, res) => {
+  try{
+    const post = await Post.find({
+      user : req.user.id
+    }).populate("user", "username fullname").sort({createdAt: -1})
+
+    res.status(201).json(post)
+
+  }catch(error){
+    res.status(500).json({
+      message : error.message
+    })
+  }
+});
+
+
+
 module.exports = router;
