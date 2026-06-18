@@ -72,14 +72,36 @@ body {
 .post-header {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  padding: 10px 14px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #fafafa; /* Subtle separator line before the image */
+  gap: 10px; /* Space between the avatar and username */
 }
 
-.post-username {
-  font-weight: 600;
-  font-size: 13.5px;
-  color: #262626;
+/* Post Header Avatar Image */
+.post-header img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%; /* Perfect circle avatar */
+  object-fit: cover;
+  background-color: #efefef;
+  border: 1px solid #dbdbdb; /* Very subtle border outline */
 }
+
+/* Post Username Typography */
+.post-username {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600; /* Bold weight like native app */
+  color: #262626;
+  margin: 0; /* Clear default paragraph spacing margins */
+  cursor: pointer;
+}
+
+.post-username:hover {
+  color: #737373; /* Smooth interactive transition color */
+}
+
 
 /* Full Width Mobile Post Image */
 .post-img {
@@ -279,31 +301,66 @@ body {
   gap: 24px; /* Space between avatar and stats side */
 }
 
-.avatar-side {
+/* --- THE AVATAR COMPONENT COMPILATION --- */
+.avatar {
   flex-shrink: 0;
+  position: relative;
 }
 
-.avatar-section {
-  width: 77px;
-  height: 77px;
+/* Authentic Instagram colorful gradient canvas frame border */
+.avatar-ring-label {
+  display: block;
+  width: 82px;
+  height: 82px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #f09433, #e1306c, #833ab4);
+  background-color: #efefef;
   padding: 2.5px;
   box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-.avatar-section::before {
-  content: '';
-  display: block;
-  width: 100%; height: 100%;
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2.5px solid #ffffff; /* Separation gap space between ring and image */
+  background-color: #ffffff;
+}
+
+/* Fallback default when user image hasn't loaded or doesn't exist yet */
+.avatar-placeholder-fallback {
+  width: 100%;
+  height: 100%;
   background-color: #fafafa;
   border: 2px solid #ffffff;
   border-radius: 50%;
-  box-sizing: border-box;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23dbdbdb' viewBox='0 0 24 24'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 70%;
+  background-size: 65%;
+}
+
+/* Sleek dark micro-overlay visibility prompt upon mouse hovering */
+.avatar-overlay-hint {
+  position: absolute;
+  top: 2.5px; left: 2.5px; right: 2.5px; bottom: 2.5px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.avatar-ring-label:hover .avatar-overlay-hint {
+  opacity: 1;
 }
 
 /* RIGHT HAND COLUMN PACK (FULLNAME & STATS) */
@@ -676,4 +733,105 @@ body {
 
 .caption-section textarea::placeholder {
   color: #c7c7c7;
+}
+
+/* --- TOP NAVIGATION BAR (LEFT ALIGNED) --- */
+.top-nav-bar-left {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #efefef;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligns everything to the left side */
+  padding: 0 16px;
+  gap: 12px; /* Controlled spacing directly between the icon and the username */
+  z-index: 1000;
+  box-sizing: border-box;
+}
+/* --- BACK BUTTON --- */
+.nav-back-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #262626;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.1s ease;
+  flex-shrink: 0;
+}
+
+.nav-back-btn:active {
+  opacity: 0.6; /* Quick tap active feedback state */
+}
+
+/* --- LEFT-ALIGNED TITLE --- */
+.nav-header-title-left {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1; /* Allows text to use remaining space without breaking layout */
+}
+
+.post-header-link{
+  text-decoration: none; /* Removes standard link underline */
+  color: inherit;
+}
+
+/* --- BASE FOLLOW BUTTON STRUCTURE --- */
+.follow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  height: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s ease, opacity 0.1s ease;
+
+  /* --- NEW SPACING CHANGES --- */
+  margin: 8px 0 24px 0; /* 8px top spacing, 0 on sides, and 24px deep bottom spacing */
+}
+
+/* --- STATE 1: NOT FOLLOWING (BRIGHT BLUE CTA) --- */
+.follow-btn.follow-state {
+  background-color: #0095f6;
+  color: #ffffff;
+}
+
+.follow-btn.follow-state:hover {
+  background-color: #1877f2;
+}
+
+/* --- STATE 2: ALREADY FOLLOWING (MUTED GRAY) --- */
+.follow-btn.following-state {
+  background-color: #efefef;
+  color: #000000;
+}
+
+.follow-btn.following-state:hover {
+  background-color: #dbdbdb;
+}
+
+/* --- GLOBAL CLICK FEEDBACK --- */
+.follow-btn:active {
+  opacity: 0.85;
 }

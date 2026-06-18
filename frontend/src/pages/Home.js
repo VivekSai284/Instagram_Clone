@@ -8,7 +8,7 @@ import {
   BsSend,
   BsBookmark,
 } from "react-icons/bs";
-import {FiPlus} from 'react-icons/fi';
+import { FiPlus } from "react-icons/fi";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -53,7 +53,7 @@ const Home = () => {
           <Link to="/add" className="nav-icon-link" title="Add Post">
             <FiPlus size={22} />
           </Link>
-        <div className="logo">Instagram</div>
+          <div className="logo">Instagram</div>
           <Link
             to="/notifications"
             className="nav-icon-link"
@@ -68,7 +68,19 @@ const Home = () => {
         {posts.map((post) => (
           <div key={post._id} className="post">
             <div className="post-header">
+              <Link to={`/profile/${post.user._id}`} >
+              <img
+                src={
+                  post.user?.profilePic
+                    ? `http://localhost:5000/uploads/${post.user.profilePic}`
+                    : "/default-avatar.png"
+                }
+                alt="profile"
+              />
+              </Link>
+              <Link to={`/profile/${post.user._id}`} className="post-header-link">
               <p className="post-username">{post.user?.username}</p>
+              </Link>
             </div>
 
             <img
@@ -83,10 +95,13 @@ const Home = () => {
                   className={`action-btn like-btn ${post.likes.some((id) => id && id.toString() === userId) ? "liked" : ""}`}
                   onClick={() => handleLike(post._id)}
                 >
-                  {post.likes.some((id) => id && id.toString() === userId) ? <BsHeartFill size={24} /> : <BsHeart size={24} />}
-                <span className="post-likes">              
-                {post.likes?.length || 0}{" "}
-              </span></button>
+                  {post.likes.some((id) => id && id.toString() === userId) ? (
+                    <BsHeartFill size={24} />
+                  ) : (
+                    <BsHeart size={24} />
+                  )}
+                  <span className="post-likes">{post.likes?.length || 0} </span>
+                </button>
                 <button className="action-btn">
                   <BsChat size={24} />
                 </button>

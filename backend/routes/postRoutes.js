@@ -31,7 +31,7 @@ router.post(
 
 router.get("/", async (req, res) => {
   try {
-    const post = await Post.find().populate("user", "username").sort({
+    const post = await Post.find().populate("user", "username profilePic").sort({
       createdAt: -1,
     });
     res.json(post);
