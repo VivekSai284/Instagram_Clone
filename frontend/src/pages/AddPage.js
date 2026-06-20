@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { FiArrowLeft } from "react-icons/fi";
+import { useNavigate } from 'react-router-dom';
 
 const AddPage = () => {
   const [image, setImage] = useState(null)
   const [preview, setPreview] = useState("")
   const [caption, setCaption] = useState("")
+  const navigate = useNavigate()
 
   const handleImageChange = (e) => {
     const file = e.target.files[0]
@@ -51,6 +54,20 @@ const AddPage = () => {
 
   return (
     <div className="create-post-container">
+
+            <div className="top-nav-bar-left">
+              {/* Back Navigation Button */}
+              <button
+                className="nav-back-btn"
+                onClick={() => navigate(-1)}
+                aria-label="Go back"
+              >
+                <FiArrowLeft size={24} />
+              </button>
+      
+              {/* Username positioned directly right after the icon */}
+              <h1 className="nav-header-title-left">New Post</h1>
+            </div>
   {/* --- TOP INSTA-STYLE HEADER BAR --- */}
   <div className="create-post-header">
     <h2>New Post</h2>

@@ -42,7 +42,7 @@ const Home = () => {
 
       fetchPosts();
     } catch (error) {
-      alert(error.message);
+      alert(error.response?.data?.message);
     }
   };
 
@@ -76,6 +76,7 @@ const Home = () => {
                     : "/default-avatar.png"
                 }
                 alt="profile"
+                
               />
               </Link>
               <Link to={`/profile/${post.user._id}`} className="post-header-link">
@@ -87,6 +88,7 @@ const Home = () => {
               className="post-img"
               src={`http://localhost:5000/uploads/${post.image}`}
               alt="post"
+              onDoubleClick={() => handleLike(post._id)}
             />
 
             <div className="post-actions-ribbon">

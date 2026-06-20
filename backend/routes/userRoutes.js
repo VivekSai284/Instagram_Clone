@@ -47,6 +47,25 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+
+
+router.get('/search/:keyword', async(req, res) => {
+  try{
+    const users = await User.find({
+      username : {
+        $regex : req.params.keyword,
+        $options : "i",
+      },
+    }).select("username fullname profilePic")
+
+    res.json(users)
+  }catch(error){
+    res.status(500).json({
+      message : error.message
+    })
+  }
+});
+
 router.get("/:userId/posts", async (req, res) => {
   try {
     const post = await Post.find({
@@ -63,7 +82,7 @@ router.get("/:userId/posts", async (req, res) => {
   }
 });
 
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId).select("-password");
 
@@ -73,7 +92,12 @@ router.get("/:userId", async (req, res) => {
       });
     }
 
-    res.json(user);
+    const isFollowing = user.followers.some((id) => id.toString() === req.user.id);
+
+    res.json({
+      ...user.toObject(),
+      isFollowing,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -96,14 +120,14 @@ router.put("/follow/:userId", authMiddleware, async (req, res) => {
         })
     }
 
-    const isFollowing = currentUser.following.includes(targetUserId);
+    const isFollowing = currentUser.following.some((id) => id.toString() === targetUserId);
 
     if (isFollowing) {
       currentUser.following = currentUser.following.filter(
         (id) => id.toString() !== targetUserId,
       );
 
-      targetUser.following = targetUser.followers.filter(
+      targetUser.followers = targetUser.followers.filter(
         (id) => id.toString() !== currentUserId
       );
 
@@ -135,5 +159,41 @@ router.put("/follow/:userId", authMiddleware, async (req, res) => {
     });
   }
 });
+
+
+
+
+router.put('/edit-profile', authMiddleware, upload.single("image"), async(req, res) => {
+  try{
+    const { profilePic, fullname, username, bio } = req.body;
+
+    const user = await User.findById(req.user.id);
+
+    if(!user){
+      return res.status(404).json({
+        message : "User Not Found",
+      });
+    }
+
+    user.profilePic = profilePic || req.file.filename;
+    user.fullname = fullname || user.fullname;
+    user.username = username || user.username;
+    user.bio = bio || user.bio;
+
+    await user.save()
+
+    res.json({
+      message : "Profile Updated"
+    })
+  }catch(error){
+    res.status(500).json({
+      message : error.message
+    })
+  }
+})
+
+
+
+
 
 module.exports = router;

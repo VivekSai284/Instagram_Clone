@@ -97,5 +97,37 @@ router.get('/my-posts', authMiddleware, async(req, res) => {
 });
 
 
+router.delete("/:id", authMiddleware, async(req, res) => {
+  try{
+    const post = await Post.findById(req.params.id)
+
+    if(!post){
+      return res.status(404)({
+        message : "Post Not Found"
+      })
+    }
+
+    if(post.user.toString() !== req.user.id){
+      return res.status(403).json({
+        message : "Not Authorized"
+      })
+    }
+
+    await Post.findByIdAndDelete(req.params.id)
+
+    res.json({
+      message : "Post Deleted"
+    })
+  }catch(error){
+    res.status(500)({
+      message : error.message
+    })
+  }
+});
+
+
+
+
+
 
 module.exports = router;

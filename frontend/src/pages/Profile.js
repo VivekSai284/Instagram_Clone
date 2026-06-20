@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiTrash2 } from "react-icons/fi";
 
 const Profile = () => {
   const token = localStorage.getItem("token");
   const [posts, setPosts] = useState([]);
+  const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
+  const [bio, setBio] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [activeDeleteId, setActiveDeleteId] = useState(null);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -38,8 +41,10 @@ const Profile = () => {
         },
       });
 
+      setUser(response.data);
       setUsername(response.data.username);
       setFullName(response.data.fullname);
+      setBio(response.data.bio);
       setProfilePic(response.data.profilePic);
     } catch (error) {
       alert(error);
@@ -77,6 +82,25 @@ const Profile = () => {
       alert("ProfilePic updated");
     } catch (error) {
       alert(error);
+    }
+  };
+
+  const handleDelete = async (postId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.delete(`http://localhost:5000/posts/${postId}`, {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+
+      setPosts(posts.filter((post) => post._id !== postId));
+      setActiveDeleteId(null);
+
+      alert("Post Deleted");
+    } catch (error) {
+      alert(error.response?.data?.message);
     }
   };
 
@@ -128,52 +152,62 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* --- NEW ROW LAYOUT: [AVATAR]  [FULLNAME, STATS] --- */}
-      <header className="profile-hero-row">
-        <div className="avatar">
-          <label htmlFor="avatar-upload-input" className="avatar-ring-label">
-            {profilePic ? (
-              <img
-                src={`http://localhost:5000/uploads/${profilePic}`}
-                alt="profile"
-                className="profile-avatar-img"
-              />
-            ) : (
-              <div className="avatar-placeholder-fallback" />
-            )}
-            {/* Subtle camera icon or edit label on hover */}
-            <div className="avatar-overlay-hint">Change</div>
-          </label>
-          <input
-            id="avatar-upload-input"
-            type="file"
-            accept="image/*"
-            onChange={handleProfilePic}
-            style={{ display: "none" }} // Safely hides the default browser upload text button
-          />
-        </div>
+      <div className="profile-header-wrapper">
+        {/* --- TOP ROW: AVATAR & STATS ONLY --- */}
+        <header className="profile-hero-row">
+          <div className="avatar">
+            <label htmlFor="avatar-upload-input" className="avatar-ring-label">
+              {profilePic ? (
+                <img
+                  src={`http://localhost:5000/uploads/${profilePic}`}
+                  alt="profile"
+                  className="profile-avatar-img"
+                />
+              ) : (
+                <div className="avatar-placeholder-fallback" />
+              )}
+              <div className="avatar-overlay-hint">Change</div>
+            </label>
+            <input
+              id="avatar-upload-input"
+              type="file"
+              accept="image/*"
+              onChange={handleProfilePic}
+              style={{ display: "none" }}
+            />
+          </div>
 
-        <div className="info-side">
-          <h1 className="profile-display-fullname">
-            {fullName || "Instagram User"}
-          </h1>
+          <div className="info-side">
+            <h1 className="profile-display-fullname">
+              {fullName || "Instagram User"}
+            </h1>
 
-          <div className="profile-stats-inline">
-            <div className="stat-item">
-              <div className="stat-count">{posts.length}</div>{" "}
-              <span className="stat-label">posts</span>
-            </div>
-            <div className="stat-item">
-              <div className="stat-count">0</div>{" "}
-              <span className="stat-label">followers</span>
-            </div>
-            <div className="stat-item">
-              <div className="stat-count">0</div>{" "}
-              <span className="stat-label">following</span>
+            <div className="profile-stats-inline">
+              <div className="stat-item">
+                <div className="stat-count">{posts.length}</div>
+                <span className="stat-label">posts</span>
+              </div>
+              <div className="stat-item">
+                <div className="stat-count">{user?.followers?.length || 0}</div>
+                <span className="stat-label">followers</span>
+              </div>
+              <div className="stat-item">
+                <div className="stat-count">{user?.following?.length || 0}</div>
+                <span className="stat-label">following</span>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
+
+        {/* --- NEW POSITION: COMPLETELY BELOW THE TOP ROW --- */}
+        {bio && <div className="profile-rendered-bio">{bio}</div>}
+      </div>
+
+      <div style={{ padding: "0 20px" }}>
+        <Link to={"/edit-profile"} className="edit-state">
+          Edit Profile
+        </Link>
+      </div>
 
       {/* --- SEPARATOR POSTS TAB --- */}
       <div className="profile-tabs-separator">
@@ -188,6 +222,33 @@ const Profile = () => {
               src={`http://localhost:5000/uploads/${post.image}`}
               alt={post.caption || "Instagram post"}
             />
+
+            {activeDeleteId !== post._id ? (
+              /* Step 1 Target: Hover/Tap to see Trash Icon */
+              <button
+                className="initial-delete-trigger-btn"
+                onClick={() => setActiveDeleteId(post._id)}
+                title="Delete Post"
+              >
+                <FiTrash2 size={20} />
+              </button>
+            ) : (
+              /* Step 2 Target: Double Confirm Action Mask Block */
+              <div className="reconfirm-overlay-curtain">
+                <button
+                  className="confirm-btn action-danger"
+                  onClick={() => handleDelete(post._id)}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="confirm-btn action-cancel"
+                  onClick={() => setActiveDeleteId(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </main>

@@ -10,6 +10,7 @@ import Search from './pages/Search';
 import Reels from './pages/Reels';
 import Messages from './pages/Messages'
 import UserProfile from './pages/UserProfile';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path='/reels' element={<Reels/>}/>
             <Route path='/messages' element={<Messages/>}/>
             <Route path ='/profile/:userId' element={<UserProfile/>}/>
+            <Route path='/edit-profile' element={<EditProfile/>}/>
         </Routes>
         <Footer/>
       </BrowserRouter>

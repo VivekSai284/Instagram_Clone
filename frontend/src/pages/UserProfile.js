@@ -13,7 +13,11 @@ const UserProfile = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/user/${userId}`);
+      const response = await axios.get(`http://localhost:5000/user/${userId}`, {
+        headers : {
+          Authorization : `${token}`
+        }
+      });
 
       setUser(response.data);
       setIsFollowing(response.data.isFollowing);
@@ -103,11 +107,11 @@ const UserProfile = () => {
               <span className="stat-label">posts</span>
             </div>
             <div className="stat-item">
-              <div className="stat-count">{user.followers?.length || 0}</div>{" "}
+              <div className="stat-count">{user?.followers?.length || 0}</div>{" "}
               <span className="stat-label">followers</span>
             </div>
             <div className="stat-item">
-              <div className="stat-count">{user.following?.length || 0}</div>{" "}
+              <div className="stat-count">{user?.following?.length || 0}</div>{" "}
               <span className="stat-label">following</span>
             </div>
           </div>
